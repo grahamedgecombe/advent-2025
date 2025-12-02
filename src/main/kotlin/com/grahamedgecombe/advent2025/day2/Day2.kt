@@ -13,12 +13,20 @@ object Day2 : Puzzle<List<LongRange>>(2) {
     override fun solvePart1(input: List<LongRange>): Long {
         return input.sumOf { range ->
             range.filter { id ->
-                id.isInvalid()
+                id.isInvalidPart1()
             }.sum()
         }
     }
 
-    private fun Long.isInvalid(): Boolean {
+    override fun solvePart2(input: List<LongRange>): Long {
+        return input.sumOf { range ->
+            range.filter { id ->
+                id.isInvalidPart2()
+            }.sum()
+        }
+    }
+
+    private fun Long.isInvalidPart1(): Boolean {
         val str = toString()
         if (str.length % 2 != 0) {
             return false
@@ -26,5 +34,26 @@ object Day2 : Puzzle<List<LongRange>>(2) {
 
         val midpoint = str.length / 2
         return str.substring(0, midpoint) == str.substring(midpoint, str.length)
+    }
+
+    private fun Long.isInvalidPart2(): Boolean {
+        val str = toString()
+
+        next@for (n in 1 .. str.length / 2) {
+            if (str.length % n != 0) {
+                continue
+            }
+
+            val first = str.substring(0, n)
+            for (i in n until str.length step n) {
+                if (str.substring(i, i + n) != first) {
+                    continue@next
+                }
+            }
+
+            return true
+        }
+
+        return false
     }
 }
