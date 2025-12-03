@@ -13,29 +13,45 @@ object Day3 : Puzzle<List<List<Int>>>(3) {
         }.toList()
     }
 
-    override fun solvePart1(input: List<List<Int>>): Int {
+    override fun solvePart1(input: List<List<Int>>): Long {
         return input.sumOf { bank ->
-            maxJoltage(bank)
+            maxJoltage(bank, 2)
         }
     }
 
-    private fun maxJoltage(bank: List<Int>, on: List<Int> = emptyList()): Int {
-        if (on.size == 2) {
-            return on[0] * 10 + on[1]
-        } else if (on.size > 2) {
+    override fun solvePart2(input: List<List<Int>>): Long {
+        return input.sumOf { bank ->
+            maxJoltage(bank, 12)
+        }
+    }
+
+    private fun maxJoltage(bank: List<Int>, n: Int, on: List<Int> = emptyList()): Long {
+        if (on.size == n) {
+            var result = 0L
+            for (digit in on) {
+                result = (result * 10) + digit
+            }
+            return result
+        } else if (on.size > n) {
             throw IllegalArgumentException()
         }
 
         if (bank.isEmpty()) {
-            return Int.MIN_VALUE
+            return Long.MIN_VALUE
         }
 
-        val battery = bank[0]
-        val remaining = bank.subList(1, bank.size)
+        for (joltage in 9 downTo 1) {
+            val index = bank.indexOf(joltage)
+            if (index == -1) {
+                continue
+            }
 
-        return maxOf(
-            maxJoltage(remaining, on + battery),
-            maxJoltage(remaining, on),
-        )
+            val max = maxJoltage(bank.subList(index + 1, bank.size), n, on + joltage)
+            if (max != Long.MIN_VALUE) {
+                return max
+            }
+        }
+
+        return maxJoltage(bank.subList(1, bank.size), n, on)
     }
 }
