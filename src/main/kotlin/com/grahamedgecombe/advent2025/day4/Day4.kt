@@ -10,13 +10,33 @@ object Day4 : Puzzle<CharGrid>(4) {
     }
 
     override fun solvePart1(input: CharGrid): Int {
-        return input.count { (position, tile) ->
-            if (tile != '@') {
-                return@count false
+        return input.count { (position, tile) -> isAccessible(input, position, tile) }
+    }
+
+    override fun solvePart2(input: CharGrid): Int {
+        var removed = 0
+
+        while (true) {
+            val tiles = input.filter { (position, tile) -> isAccessible(input, position, tile) }
+            if (tiles.isEmpty()) {
+                break
             }
 
-            val rolls = Vector2.NEIGHBOURS.count { v -> input[position + v] == '@' }
-            return@count rolls < 4
+            for ((position, _) in tiles) {
+                input[position] = '.'
+                removed++
+            }
         }
+
+        return removed
+    }
+
+    private fun isAccessible(grid: CharGrid, position: Vector2, tile: Char): Boolean {
+        if (tile != '@') {
+            return false
+        }
+
+        val rolls = Vector2.NEIGHBOURS.count { v -> grid[position + v] == '@' }
+        return rolls < 4
     }
 }
