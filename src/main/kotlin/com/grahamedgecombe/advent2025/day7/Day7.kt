@@ -15,6 +15,11 @@ object Day7 : Puzzle<CharGrid>(7) {
         return countSplits(input, start)
     }
 
+    override fun solvePart2(input: CharGrid): Long {
+        val start = input.find('S') ?: throw UnsolvableException()
+        return countTimelines(input, start)
+    }
+
     private fun countSplits(grid: CharGrid, position: Vector2, seen: MutableSet<Vector2> = mutableSetOf()): Int {
         if (position.y >= grid.height) {
             return 0
@@ -28,5 +33,25 @@ object Day7 : Puzzle<CharGrid>(7) {
         } else {
             countSplits(grid, position + Vector2.DOWN, seen)
         }
+    }
+
+    private fun countTimelines(grid: CharGrid, position: Vector2, cache: MutableMap<Vector2, Long> = mutableMapOf()): Long {
+        if (position.y >= grid.height) {
+            return 1L
+        }
+
+        var count = cache[position]
+        if (count != null) {
+            return count
+        }
+
+        val tile = grid[position]
+        count = if (tile == '^') {
+            countTimelines(grid, position + Vector2.LEFT, cache) + countTimelines(grid, position + Vector2.RIGHT, cache)
+        } else {
+            countTimelines(grid, position + Vector2.DOWN, cache)
+        }
+        cache[position] = count
+        return count
     }
 }
