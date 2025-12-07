@@ -33,6 +33,19 @@ class CharGrid private constructor(
         return set(v.x, v.y, c)
     }
 
+    fun find(c: Char): Vector2? {
+        var i = 0
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                if (tiles[i++] == c) {
+                    return Vector2(x, y)
+                }
+            }
+        }
+
+        return null
+    }
+
     override fun toString(): String {
         val builder = StringBuilder()
 

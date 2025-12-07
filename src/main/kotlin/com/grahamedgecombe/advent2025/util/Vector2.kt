@@ -27,5 +27,8 @@ data class Vector2(val x: Int, val y: Int) {
                 }
             }
         }
+        val LEFT = Vector2(-1, 0)
+        val RIGHT = Vector2(1, 0)
+        val DOWN = Vector2(0, 1)
     }
 }
