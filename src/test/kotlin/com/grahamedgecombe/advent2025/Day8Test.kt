@@ -7,8 +7,14 @@ import kotlin.test.assertEquals
 class Day8Test {
     @Test
     fun testPart1() {
-        assertEquals(40, Day8.solvePart1(TEST_INPUT, 10))
+        assertEquals(40, Day8.solve(TEST_INPUT, 10))
         assertEquals(75680, Day8.solvePart1(PROD_INPUT))
+    }
+
+    @Test
+    fun testPart2() {
+        assertEquals(25272, Day8.solvePart2(TEST_INPUT))
+        assertEquals(8995844880, Day8.solvePart2(PROD_INPUT))
     }
 
     private companion object {
