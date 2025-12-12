@@ -2,6 +2,7 @@ package com.grahamedgecombe.advent2025
 
 import com.grahamedgecombe.advent2025.day1.Day1
 import com.grahamedgecombe.advent2025.day10.Day10
+import com.grahamedgecombe.advent2025.day11.Day11
 import com.grahamedgecombe.advent2025.day2.Day2
 import com.grahamedgecombe.advent2025.day3.Day3
 import com.grahamedgecombe.advent2025.day4.Day4
@@ -25,6 +26,7 @@ fun main(args: Array<String>) {
         Day8,
         Day9,
         Day10,
+        Day11,
     )
 
     val day = args.firstOrNull()?.toIntOrNull()
